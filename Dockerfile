@@ -2,7 +2,7 @@
 FROM node:20-alpine AS web
 WORKDIR /web
 COPY frontend/package.json ./
-RUN npm install
+RUN pip install --no-cache-dir --system -r backend/requirements.txt
 COPY frontend/ ./
 RUN npm run build
 
