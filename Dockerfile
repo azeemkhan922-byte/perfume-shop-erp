@@ -4,7 +4,7 @@ WORKDIR /web
 COPY frontend/package.json ./
 RUN pip install --no-cache-dir --system -r backend/requirements.txt
 COPY frontend/ ./
-RUN npm run build
+RUN pip install --no-cache-dir -r backend/requirements.txt
 
 FROM python:3.12-slim
 WORKDIR /app
