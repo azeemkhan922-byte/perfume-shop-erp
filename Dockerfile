@@ -17,4 +17,4 @@ RUN useradd --create-home --uid 10001 azeem && chown -R azeem /app
 USER azeem
 WORKDIR /app/backend
 ENV PYTHONUNBUFFERED=1
-CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-10000}"]
+CMD ["sh", "-c", "python -m uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-10000}"]
