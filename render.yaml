@@ -1,0 +1,21 @@
+# Render "Blueprint": creates ONE free web service (API + website). Secrets are typed in the Render dashboard, never stored here.
+services:
+  - type: web
+    name: azeem-erp
+    runtime: docker
+    plan: free
+    region: singapore          # nearest Render region to India; pick the SAME area for Supabase (Singapore or Mumbai)
+    healthCheckPath: /api/health
+    envVars:
+      - key: DATABASE_URL        # Supabase "Session pooler" connection string (see docs/DEPLOY.md)
+        sync: false
+      - key: SECRET_KEY          # generated once by Render (long random text)
+        generateValue: true
+      - key: OWNER_USERNAME      # only needed for the very first start; delete afterwards
+        sync: false
+      - key: OWNER_PASSWORD      # only needed for the very first start; delete afterwards
+        sync: false
+      - key: SHOP_NAME
+        value: AZEEM FRAGRANCES
+      - key: SHOP_UTC_OFFSET_MINUTES
+        value: "330"
