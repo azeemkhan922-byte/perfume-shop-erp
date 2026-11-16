@@ -1,19 +1,24 @@
-# One container = API + website. Used by Render (free). Build: React -> static files, then Python serves both.
+# Stage 1: Build Frontend (React / Vite)
 FROM node:20-alpine AS web
 WORKDIR /web
 COPY frontend/package.json ./
-RUN pip install --no-cache-dir --system -r backend/requirements.txt
+RUN npm install
 COPY frontend/ ./
-RUN pip install --no-cache-dir -r backend/requirements.txt
+RUN npm run build
 
+# Stage 2: Setup Backend (Python / FastAPI)
 FROM python:3.12-slim
 WORKDIR /app
-COPY backend/requirements.txt backend/requirements.txt
-RUN pip install --no-cache-dir --system -r backend/requirements.txt
 
+# Copy backend requirements and install Python dependencies
+COPY backend/requirements.txt backend/requirements.txt
+RUN pip install --no-cache-dir -r backend/requirements.txt
+
+# Copy backend files and built frontend static assets
 COPY backend/ backend/
 COPY --from=web /web/dist frontend/dist
 
 WORKDIR /app/backend
 ENV PYTHONUNBUFFERED=1
+
 CMD ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "10000"]
