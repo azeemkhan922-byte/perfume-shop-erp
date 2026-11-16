@@ -10,9 +10,9 @@ RUN npm run build
 FROM python:3.12-slim
 WORKDIR /app
 
-# Root folder wali requirements.txt ko copy aur install karein
-ModuleNotFoundError: No module named 'psycopg'
-RUN pip install --no-cache-dir uvicorn[standard] fastapi -r requirements.txt
+# Backend dependencies (including psycopg for Supabase PostgreSQL)
+COPY backend/requirements.txt backend/requirements.txt
+RUN pip install --no-cache-dir uvicorn[standard] fastapi -r backend/requirements.txt
 
 # Copy backend files and built frontend static assets
 COPY backend/ backend/
