@@ -11,7 +11,7 @@ FROM python:3.12-slim
 WORKDIR /app
 
 # Root folder wali requirements.txt ko copy aur install karein
-COPY requirements.txt requirements.txt
+ModuleNotFoundError: No module named 'psycopg'
 RUN pip install --no-cache-dir uvicorn[standard] fastapi -r requirements.txt
 
 # Copy backend files and built frontend static assets
