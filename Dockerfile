@@ -3,8 +3,8 @@ FROM node:20-alpine AS web
 WORKDIR /web
 COPY frontend/package.json ./
 RUN npm install
-COPY frontend/ ./
-RUN npm run build
+COPY requirements.txt requirements.txt
+RUN pip install --no-cache-dir uvicorn[standard] fastapi -r requirements.txt
 
 # Stage 2: Setup Backend (Python / FastAPI)
 FROM python:3.12-slim
